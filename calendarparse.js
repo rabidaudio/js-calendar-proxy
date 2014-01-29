@@ -70,7 +70,7 @@ module.exports = function(calendar, options, callback){
                 return;
             }
             var $ = window.$;
-            console.log( $('entry:first updated').text() );
+            //console.log( $('entry:first updated').text() );
             $('entry').each(function(event_index){
                 var event = {
                     id:         $(this).find('id').text(),
@@ -91,7 +91,9 @@ module.exports = function(calendar, options, callback){
                     uid:        $(this).find('gCal\\:uid').attr('value'),
                 };
                 //add an event for each occurrence
-                $(this).find('gd\\:when').each(function(i){
+                $(this).find('gd\\:where > gd\\:when').each(function(i){
+                    //console.log("For "+event.uid);
+                    //console.log($(this).html());
                     event.start = $(this).attr('startTime');
                     event.end = $(this).attr('endTime');
                     events.push(event);

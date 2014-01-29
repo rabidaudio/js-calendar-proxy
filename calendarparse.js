@@ -83,7 +83,7 @@ module.exports = function(calendar, options, callback){
                     atom_link:  $(this).find("link[type='application/atom+xml']").attr('href'),
                     
                     author: {   name:   $(this).find('author name').text(),
-                                email:  $(this).children('author email').text()
+                                email:  $(this).find('author email').text()
                     },
                     
                     status:     $(this).find('gd\\:eventStatus').attr('value').match(/\.[a-z]*$/)[0].substr(1),

@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html ng-app>
+<head>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="calendarproxy.js"></script>
+<script type="text/javascript">
+
+var url = "https://www.google.com/calendar/feeds/orpm6td3rsutl3972oosf4ksds%40group.calendar.google.com/public/full-noattendees";
+
+$(document).ready(function(){
+    get_calendars([url], function(events){
+        var event_list = events[0];
+        console.log(event_list, events.length);
+        
+        $('#events').append("<ul>");
+        for(var i=0;i<event_list.length;i++){
+            var e = event_list[i];
+            $('#events').append(
+                "<li>"+"<b>"+e.title+"</b>"+"</li>"
+            );
+        }
+        $('#events').append("</ul>");
+    });
+});
+
+</script>
+</head>
+<body>
+<h1>Events</h1>
+<div id="events">
+</div>
+</body>
+</html>

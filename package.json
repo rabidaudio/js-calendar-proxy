@@ -1,0 +1,18 @@
+{
+  "name": "calendar-proxy",
+  "version": "0.0.1",
+  "description": "API for grabbing public Google Calendars as JSON items. Acts as a CORS proxy to get around cross site origin policy.",
+  "main": "server.js",
+  "dependencies": {
+    "express": "~3.4.8",
+    "browserify": "~3.20.0",
+    "jsdom": "~0.8.11"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Charles Knight, charles@rabidaudio.com",
+  "license": "ISC"
+}

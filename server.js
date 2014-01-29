@@ -27,5 +27,5 @@ app.all('*', function(req, res){
     res.jsonp(404, "Use /google to read Google Calendars");
 });
 
-app.listen(8888);
+app.listen(Number(process.env.PORT || 5000));
 console.log("Server running");

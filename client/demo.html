@@ -8,7 +8,7 @@
 var url = "https://www.google.com/calendar/feeds/orpm6td3rsutl3972oosf4ksds%40group.calendar.google.com/public/full-noattendees";
 
 $(document).ready(function(){
-    get_calendars([url], function(events){
+    get_calendars([url], {all: "true", start: 0}, function(events){
         var event_list = events[0];
         console.log(event_list, events.length);
         

@@ -8,13 +8,11 @@
 var url = "https://www.google.com/calendar/feeds/orpm6td3rsutl3972oosf4ksds%40group.calendar.google.com/public/full-noattendees";
 
 $(document).ready(function(){
-    get_calendars([url], {all: "true", start: 0}, function(events){
-        var event_list = events[0];
-        console.log(event_list, events.length);
+    get_calendar(url, {all: "true", start: (new Date(0)).toISOString()}, function(events){
         
         $('#events').append("<ul>");
-        for(var i=0;i<event_list.length;i++){
-            var e = event_list[i];
+        for(var i=0;i<events.length;i++){
+            var e = events[i];
             $('#events').append(
                 "<li>"+"<b>"+e.title+"</b>"+"</li>"
             );

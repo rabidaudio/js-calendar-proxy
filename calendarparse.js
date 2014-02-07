@@ -89,7 +89,7 @@ module.exports = function(calendar, options, callback){
             //console.log( $('entry:first updated').text() );
             $('entry').each(function(event_index){
                 console.log( $(this).find('author').html() );
-                console.log( $(this).find('author > name')[0].html() );
+                console.log( $(this).find('author > name').html() );
                 var event = {
                     id:             $(this).find('id').text(),
                     published:      $(this).find('published').text(),

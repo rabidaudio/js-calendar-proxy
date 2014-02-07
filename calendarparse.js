@@ -1,6 +1,11 @@
 var jsdom = require("jsdom");
 var url = require("url");
 
+function chomp(raw_text)
+{
+  return raw_text.replace(/(\n|\r)+$/, '');
+}
+
 module.exports = function(calendar, options, callback){
     /* Takes in the RSS/ATOM url for the Google Calendar and a callback function
     with a list of event objects as the first argument.
@@ -70,25 +75,40 @@ module.exports = function(calendar, options, callback){
                 return;
             }
             var $ = window.$;
+            
+            $.fn.imtext = function() {
+            //http://viralpatel.net/blogs/jquery-get-text-element-without-child-element/
+                return $(this)
+                    .clone()
+                    .children()
+                    .remove()
+                    .end()
+                    .text();
+            };
+            
             //console.log( $('entry:first updated').text() );
             $('entry').each(function(event_index){
                 var event = {
-                    id:         $(this).find('id').text(),
-                    published:  $(this).find('published').text(),
-                    updated:    $(this).find('published').text(),
-                    category:   $(this).find('category').attr('term'),
-                    title:      $(this).find('title').text(),
+                    id:             $(this).find('id').text(),
+                    published:      $(this).find('published').text(),
+                    updated:        $(this).find('published').text(),
+                    category:       $(this).find('category').attr('term'),
+                    title:          $(this).find('title').text(),
                     
-                    html_link:  $(this).find("link[type='text/html']").attr('href'),
-                    atom_link:  $(this).find("link[type='application/atom+xml']").attr('href'),
+                    content_type:   $(this).find('content').attr('type'),
+                    content:        chomp($(this).find('content').imtext()),
                     
-                    author: {   name:   $(this).find('author name').text(),
-                                email:  $(this).find('author email').text()
+                    html_link:      $(this).find("link[type='text/html']").attr('href'),
+                    atom_link:      $(this).find("link[type='application/atom+xml']").attr('href'),
+                    
+                    author: {
+                        name:       $(this).find('author > name').text(),
+                        email:      $(this).find('author > email').text()
                     },
                     
-                    status:     $(this).find('gd\\:eventStatus').attr('value').match(/\.[a-z]*$/)[0].substr(1),
-                    where:      $(this).find('gd\\:where').attr('valueString'),
-                    uid:        $(this).find('gCal\\:uid').attr('value'),
+                    status:         $(this).find('gd\\:eventStatus').attr('value').match(/\.[a-z]*$/)[0].substr(1),
+                    where:          $(this).find('gd\\:where').attr('valueString'),
+                    uid:            $(this).find('gCal\\:uid').attr('value'),
                 };
                 //add an event for each occurrence
                 $(this).find('gd\\:where > gd\\:when').each(function(i){

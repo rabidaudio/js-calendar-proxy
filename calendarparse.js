@@ -104,10 +104,10 @@ module.exports = function(calendar, options, callback){
                     atom_link:      $(this).find("link[type='application/atom+xml']").attr('href'),
                     
                     author: {
-                        name:       $(this).find('author').text().split("\n")[0];
+                        name:       $(this).find('name').text(), //.split("\n")[0],
                             //TODO Heroku doesn't like this. I have no idea why.
                                 //$(this).find('author > name').text(),
-                        email:      ($(this).find('author').text().split("\n")[1] || "");
+                        email:      $(this).find('email').text() //.split("\n")[1] || ""),
                                 //$(this).find('author > email').text()
                     },
                     

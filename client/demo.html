@@ -1,31 +1,68 @@
 <!DOCTYPE HTML>
-<html ng-app>
+<html>
 <head>
+<style type="text/css">
+.cal-event{
+    background-color: lightslategray;
+    padding: 10pt;
+    border-radius: 10pt;
+    width: 60%;
+    color: honeydew;
+    margin-bottom: 10pt;
+    text-align: center;
+}
+.cal-event h3{
+    margin-top: 5px;
+    font-size: x-large;
+}
+.cal-event a:link{
+    color: whitesmoke;
+}
+</style>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="calendarproxy.js"></script>
 <script type="text/javascript">
-
 var url = "https://www.google.com/calendar/feeds/orpm6td3rsutl3972oosf4ksds%40group.calendar.google.com/public/full-noattendees";
 
+function format(event){
+    //console.log(event);
+    var when= new Date(event.start);
+    return (
+    '<div class="cal-event">'+
+        '<a href="'+event.html_link+'">'+
+            "<h3>"+(event.title || "Untitled")+"</h3>"+
+        '</a>'+
+        (event.where ? "Where: "+event.where+"<br>" : "")+
+        (event.content? '<p>'+event.content+'</p>' : "" )+
+        //pretty_date returns a natural language string like "Today at 3 pm" or "Next Wednesday the 3rd at midnight"
+        $.CalendarProxy.pretty_date(when) + "<br>"+
+        (event.author.email
+            ? "Contact: "+ '<a href="mailto:'+event.author.email+'">'+(event.author.name || event.author.email) +'</a>'
+            : "")+
+    '</div>'
+    );
+}
+
 $(document).ready(function(){
-    get_calendar(url, {all: "true", start: (new Date(0)).toISOString()}, function(events){
-        
-        $('#events').append("<ul>");
-        for(var i=0;i<events.length;i++){
-            var e = events[i];
-            $('#events').append(
-                "<li>"+"<b>"+e.title+"</b>"+"</li>"
-            );
-        }
-        $('#events').append("</ul>");
+    $('#loading').show();
+    $('#events').hide();
+    $.CalendarProxy.get_calendar(url, {}, function(events){
+        events.forEach(function(e){
+            $('#events').append( format(e) );
+        });
+        $('#loading').hide();
+        $('#events').show();
     });
 });
-
 </script>
 </head>
 <body>
 <h1>Events</h1>
-<div id="events">
-</div>
+<div id="loading" class="event" style="text-align:center; background:white;"><img src="/img/loading.gif"/></div>
+<div id="content">
+    <h2 style="margin:10pt;">Upcoming Events</h2>
+    <div id="events">
+    </div>
+<div>
 </body>
 </html>

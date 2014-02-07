@@ -88,8 +88,14 @@ module.exports = function(calendar, options, callback){
             
             //console.log( $('entry:first updated').text() );
             $('entry').each(function(event_index){
-                //console.log( $(this).find('author').html() );
-                //console.log( $(this).find('author > name').html() );
+                console.log("A:    "+ $(this).find('author').html() );
+                console.log("At:   "+ $(this).find('author').text() );
+                console.log("A>N:  "+ $(this).find('author > name').html() );
+                console.log("A>Nt: "+ $(this).find('author > name').text() );
+                console.log("NAME  "+ $(this).find('name').html() );
+                console.log("NAMEt "+ $(this).find('name').text() );
+                console.log("Afn   "+ $(this).find('author').find('name').html() );
+                console.log("Afnt  "+ $(this).find('author').find('name').text() );
                 var event = {
                     id:             $(this).find('id').text(),
                     published:      $(this).find('published').text(),
@@ -104,11 +110,8 @@ module.exports = function(calendar, options, callback){
                     atom_link:      $(this).find("link[type='application/atom+xml']").attr('href'),
                     
                     author: {
-                        name:       $(this).find('name').text(), //.split("\n")[0],
-                            //TODO Heroku doesn't like this. I have no idea why.
-                                //$(this).find('author > name').text(),
-                        email:      $(this).find('email').text() //.split("\n")[1] || ""),
-                                //$(this).find('author > email').text()
+                        name:       $(this).find('name').text(),
+                        email:      $(this).find('email').text()
                     },
                     
                     status:         $(this).find('gd\\:eventStatus').attr('value').match(/\.[a-z]*$/)[0].substr(1),

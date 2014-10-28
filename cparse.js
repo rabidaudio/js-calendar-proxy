@@ -1,3 +1,6 @@
+function chomp(raw_text) {
+  return raw_text.replace(/(\n|\r)+$/, '');
+}
 
 module.exports = function($, cb){
 
@@ -10,6 +13,9 @@ module.exports = function($, cb){
             .end()
             .text();
     };
+
+    var events = [];
+    var errors = null;
 
     //console.log( $('entry:first updated').text() );
     $('entry').each(function(event_index){

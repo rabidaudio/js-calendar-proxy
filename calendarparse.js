@@ -3,10 +3,6 @@ var url = require("url");
 
 var cparse = require("./cparse");
 
-function chomp(raw_text)
-{
-  return raw_text.replace(/(\n|\r)+$/, '');
-}
 
 module.exports = function(calendar, options, callback){
     /* Takes in the RSS/ATOM url for the Google Calendar and a callback function
@@ -67,7 +63,6 @@ module.exports = function(calendar, options, callback){
     calendar = url.format(cal_url);
     
     //get data
-    var events = [];
     jsdom.env({ url: calendar,
         scripts: ["http://code.jquery.com/jquery.js"],
         done: function(errors, window){
@@ -78,8 +73,8 @@ module.exports = function(calendar, options, callback){
             }
             var $ = window.$;
 
-            $(document).ready(function(){
-                cparse(cb);
+            $(window.document).ready(function(){
+                cparse($, cb);
             });
 
         } 
